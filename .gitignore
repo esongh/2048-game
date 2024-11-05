@@ -1,0 +1,50 @@
+# Ignore object files, shared libraries, and executables
+*.o
+*.a
+*.so
+*.exe
+*.out
+*.dll
+
+# Ignore build directories
+/build/
+/bin/
+/obj/
+/Debug/
+/Release/
+
+# Ignore IDE specific files
+*.swp
+*.swo
+*.user
+*.ncb
+*.sdf
+*.suo
+*.opensdf
+*.VC.db
+*.VC.opendb
+
+# Ignore CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+*.temp
+*.bak
+*.old
+
+# Ignore compiled Python files
+__pycache__/
+*.py[cod]
+
+# Ignore other common files
+*.DS_Store
+*.directory
+
+# Ignore Visual Studio Code specific files
+*.vscode
+.vscode/
