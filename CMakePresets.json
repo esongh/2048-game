@@ -1,0 +1,35 @@
+{
+	"version": 3,
+	"cmakeMinimumRequired": {
+		"major": 3,
+		"minor": 21,
+		"patch": 1
+	},
+	"configurePresets": [
+		{
+			"name": "default",
+			"hidden": false,
+			"generator": "Visual Studio 17 2022",
+			"binaryDir": "${sourceDir}/build",
+			"cacheVariables": {
+				"CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
+				"CMAKE_C_COMPILER": "cl.exe",
+				"CMAKE_CXX_COMPILER": "cl.exe"
+			}
+		}
+	],
+	"buildPresets": [
+		{
+			"name": "default",
+			"hidden": false,
+			"configurePreset": "default"
+		}
+	],
+	"testPresets": [
+		{
+			"name": "default",
+			"hidden": false,
+			"configurePreset": "default"
+		}
+	]
+}
