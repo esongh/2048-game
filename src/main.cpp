@@ -12,16 +12,25 @@ void PrintVec(std::vector<int> v)
   std::cout << std::endl;
 }
 
+void PrintMatrix(std::vector<std::vector<int>> v)
+{
+  for (int i = 0; i < v.size(); i++)
+  {
+    PrintVec(v[i]);
+  }
+}
+
 int main()
 {
-  std::vector<int> v = {0, 0, 2, 0, 4, 0, 0, 4};
-  int size = v.size();
-  std::cout << "Original vector: ";
-  PrintVec(v);
+  using namespace std;
+  vector<vector<int>> v = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}};
 
-  utils::MergeRow(v);
+  cout << "Original matrix:" << endl;
+  PrintMatrix(v);
 
-  std::cout << "Aligned vector: ";
-  PrintVec(v);
+  utils::RotateMatrix(v);
+
+  cout << "Rotated matrix:" << endl;
+  PrintMatrix(v);
   return 0;
 }

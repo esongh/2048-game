@@ -2,5 +2,9 @@
 
 namespace utils
 {
-std::vector<int> MergeRow(std::vector<int>& v);
+using namespace std;
+
+vector<int> MergeRow(vector<int>& v);
+
+vector<vector<int>> RotateMatrix(vector<vector<int>>& v);
 }
