@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "row_merge.hpp"
+#include "game.hpp"
 
 void PrintVec(std::vector<int> v)
 {
@@ -22,15 +23,15 @@ void PrintMatrix(std::vector<std::vector<int>> v)
 
 int main()
 {
-  using namespace std;
-  vector<vector<int>> v = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}};
-
-  cout << "Original matrix:" << endl;
-  PrintMatrix(v);
-
-  utils::RotateMatrix(v);
-
-  cout << "Rotated matrix:" << endl;
-  PrintMatrix(v);
+  int brd_size = 4;
+  game::board_2048 board(brd_size);
+  for (int i = 0; i < brd_size; i++)
+  {
+    for (int j = 0; j < brd_size; j++)
+    {
+      std::cout << board.get_tile(i, j) << " ";
+    }
+    std::cout << std::endl;
+  }
   return 0;
 }
