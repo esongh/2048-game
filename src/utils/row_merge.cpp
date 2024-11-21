@@ -2,74 +2,64 @@
 
 #include "row_merge.hpp"
 
+namespace 
+{
+std::vector<int> slideVec(const std::vector<int>& row)
+{
+  int ite = 0;
+  std::vector<int> temp(row.size(), 0);
+  for (const auto i : row)
+  {
+    if (i != 0)
+    {
+      temp[ite] = i;
+      ite++;
+    }
+  }
+  return temp;
+}
+} // namespace 
+
 namespace utils
 {
-vector<int> MergeRow(vector<int>& v)
+void MergeRow(vector<int>& v)
 {
+  // slide, merge, and slide again
   int size = v.size();
+  auto forMerge = slideVec(v);
   for (int i = 0; i < size; i++)
   {
-    if (v[i] == 0) continue;
+    if (forMerge[i] == 0)
+      continue;
 
     for (int j = i + 1; j < size; j++)
     {
-      if (v[i] == v[j])
+      if (forMerge[i] == forMerge[j])
       {
-        v[i] *= 2;
-        v[j] = 0;
+        forMerge[i] *= 2;
+        forMerge[j] = 0;
       }
+      if (forMerge[j] != 0)
+        break;
     }
   }
-  for (int i = 0; i < size; i++)
-  {
-    if (v[i] == 0)
-    {
-      for (int j = i + 1; j < size; j++)
-      {
-        if (v[j] != 0)
-        {
-          v[i] = v[j];
-          v[j] = 0;
-          break;
-        }
-      }
-    }
-  }
-
-  for (int i = 0; i < size; i++)
-  {
-    if (v[i] == 0)
-    {
-      for (int j = i + 1; j < size; j++)
-      {
-        if (v[j] != 0)
-        {
-          v[i] = v[j];
-          v[j] = 0;
-          break;
-        }
-      }
-    }
-  }
-  return v;
+  
+  v = slideVec(forMerge);
 }
 
-vector<vector<int>> RotateMatrix(vector<vector<int>>& v)
+void RotateMatrixR(vector<int>& v, int size)
 {
-  int n = v.size();
-  for (int i = 0; i < n; i++)
+  for (int i = 0; i < size; i++)
   {
     for (int j = 0; j < i; j++)
     {
-      swap(v[i][j], v[j][i]);
+      swap(v[i * size + j], v[j * size + i]);
     }
   }
-
-  for (int i = 0; i < n; i++)
+  
+  for (int i = 0; i < size; i++)
   {
-    reverse(v[i].begin(), v[i].end());
+    reverse(v.begin() + i * size, v.begin() + (i + 1) * size);
   }
-  return v;
 }
-
 }  // namespace utils

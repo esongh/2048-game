@@ -25,6 +25,8 @@ int main()
 {
   int brd_size = 4;
   game::board_2048 board(brd_size);
+
+  auto print = [](game::board_2048 board, int brd_size) {
   for (int i = 0; i < brd_size; i++)
   {
     for (int j = 0; j < brd_size; j++)
@@ -33,5 +35,12 @@ int main()
     }
     std::cout << std::endl;
   }
+  };
+
+  print(board, brd_size);
+  std::cout << "Move left" << std::endl;
+  board.move(game::Direction::UP);
+  print(board, brd_size);
+
   return 0;
 }
