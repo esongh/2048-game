@@ -19,6 +19,9 @@ public:
   void move(Direction dir);
   
   int get_tile(int x, int y) const;
+  int get_size() const { return size_; }
+  bool is_win() const;
+  bool is_game_over() const;
 private:
   std::vector<int> board_;
   int size_ = 4;
@@ -26,5 +29,8 @@ private:
   std::default_random_engine gen_;
   
   void add_random_tile();
+  bool is_full() const;
+  
+  bool is_valid_move(Direction dir) const;
 };
 }  // namespace game
