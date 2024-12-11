@@ -1,5 +1,4 @@
 
-#include <format>
 #include <iostream>
 #include <vector>
 
@@ -39,6 +38,17 @@ inline ftxui::Color color_of(int num)
 ftxui::Element board_view(const game::board_2048& board)
 {
   Elements rows;
+  for (uint16_t i = 0; i < board.get_size(); ++i)
+  {
+    Elements cols;
+    for (uint16_t j = 0; j < board.get_size(); ++j)
+    {
+      cols.push_back(hbox(text(std::to_string(board.get_tile(i, j))) | center | borderRounded |
+                          color(color_of(board.get_tile(i, j))) | size(WIDTH, EQUAL, 5) |
+                          size(HEIGHT, EQUAL, 3)));
+    }
+    rows.push_back(ftxui::hbox(cols));
+  }
   return vbox(rows);
 }
 }  // namespace
@@ -87,21 +97,10 @@ void PrintMatrix(std::vector<std::vector<int>> v)
 
 int main()
 {
-  /*
-  auto board = ftxui::Make<BoardBase>(TypeBoard{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-
-  auto screen = ScreenInteractive::FitComponent();
-  Component layout = Container::Vertical(
-      {board, Button("Quit", [&screen] { screen.Exit(); }), Button("Exit", [] { exit(0); })});
-
-  screen.Loop(layout);
-  std::cout << "exiting..." << std::endl;
-  return 0;
-  */
-  auto doc = hbox(vtext("Hello world"));
-  auto screen = Screen::Create(Dimension::Full(), Dimension::Fit(doc));
-  Render(screen, doc);
+  game::board_2048 board(4);
+  auto view = board_view(board);
+  auto screen = Screen::Create(Dimension::Full(), Dimension::Fit(view));
+  Render(screen, view);
   screen.Print();
-
   return 0;
 }
