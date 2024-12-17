@@ -23,7 +23,7 @@ inline ftxui::Color color_of(int num)
   switch (num)
   {
     case 0:
-      return ftxui::Color::Red;
+      return ftxui::Color::Grey50;
     case 2:
       return ftxui::Color::GrayDark;
     case 4:
@@ -49,7 +49,7 @@ ftxui::Element board_view(const game::board_2048& board)
     }
     rows.push_back(ftxui::hbox(cols));
   }
-  return vbox(rows);
+  return vbox(rows) | borderRounded;
 }
 }  // namespace
 
@@ -97,10 +97,60 @@ void PrintMatrix(std::vector<std::vector<int>> v)
 
 int main()
 {
-  game::board_2048 board(4);
-  auto view = board_view(board);
-  auto screen = Screen::Create(Dimension::Full(), Dimension::Fit(view));
-  Render(screen, view);
-  screen.Print();
+  auto game = game::board_2048(3);
+  auto game_view = board_view(game);
+  auto screen = ftxui::ScreenInteractive::FitComponent();
+  Component hud = Container::Vertical({
+      Renderer(
+          []
+          {
+            return vbox(text("2048") | center | bold | color(Color::Green)) | center |
+                   size(WIDTH, EQUAL, 4) | borderRounded;
+          }),
+      Renderer([] { return separator(); }),
+      Renderer([] { return text("Score: 0") | bold | center | color(Color::Green); }),
+  });
+
+  bool show_modal = false;
+
+  Component layout = Container::Vertical({
+      hud,
+      Container::Horizontal({Renderer([&game_view] { return vbox(game_view); })}),
+      Button(
+          "Quit", [&show_modal] { show_modal = true; }, ButtonOption::Animated()),
+  });
+
+  auto modalDialog =
+      Container::Vertical({
+          Renderer([] { return vbox(text("Game Over") | bold | center | color(Color::Red)); }),
+          Button("Close", screen.ExitLoopClosure()),
+      }) |
+      size(WIDTH, EQUAL, 6) |
+      CatchEvent(
+          [&](Event e)
+          {
+            if (e == Event::Return)
+            {
+              screen.ExitLoopClosure()();
+              return true;
+            }
+            return false;
+          });
+
+  auto view = Modal(layout, modalDialog, &show_modal);
+
+  view |= CatchEvent(
+      [&](Event event)
+      {
+        if (event == Event::Escape)
+        {
+          show_modal = true;
+          return true;
+        }
+        return false;
+      });
+
+  screen.Loop(view);
+
   return 0;
 }
