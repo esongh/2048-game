@@ -1,5 +1,8 @@
+#pragma once
+
 #include <stdint.h>
 #include <vector>
+#include <utility>
 
 namespace core
 {
@@ -11,11 +14,16 @@ enum Direction : uint8_t
   DOWN = 3
 };
 
+struct motion
+{
+  int from;
+  int step;
+};
 struct animationTiles
 {
 	std::vector<int> tileNumber;
 	std::vector<int> preNum;
-	std::vector<int> slideDistance;
+  std::vector<motion> slideDistance;
 };
 
 } // namespace core

@@ -1,6 +1,7 @@
 add_library(LibUI
 	animation.cpp
 	animation.hpp
+	theme.hpp
 )
 
 target_include_directories(LibUI
@@ -8,7 +9,6 @@ target_include_directories(LibUI
 )
 
 target_link_libraries(LibUI
-	PUBLIC PRIVATE
 	PRIVATE LibUtils
 	PRIVATE ftxui::screen
 	PRIVATE ftxui::dom

@@ -2,6 +2,7 @@
 #include "game.hpp"
 
 #include "row_merge.hpp"
+#include "core/game_core.hpp"
 namespace game
 {
 board_2048::board_2048(int size) : size_(size), gen_(std::random_device{}())
@@ -11,7 +12,7 @@ board_2048::board_2048(int size) : size_(size), gen_(std::random_device{}())
   add_random_tile();
 }
 
-void board_2048::move(Direction dir)
+void board_2048::move(core::Direction dir)
 {
   if (!is_valid_move(dir))
   {
@@ -50,7 +51,7 @@ void board_2048::move(Direction dir)
   add_random_tile();
 }
 
-bool board_2048::is_valid_move(Direction dir) const { return true; }
+bool board_2048::is_valid_move(core::Direction dir) const { return true; }
 
 int board_2048::get_tile(int x, int y) const { return board_[x * size_ + y]; }
 

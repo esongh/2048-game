@@ -24,21 +24,23 @@ std::vector<int> slideVec(const std::vector<int>& row)
 void slideVec(animationTiles& tiles)
 {
   int slideBase = 0;
-  for (auto num : tiles.preNum)
+  tiles.tileNumber.clear();
+  tiles.slideDistance.clear();
+  for (int i = 0; i < tiles.preNum.size(); i++)
   {
-    if (num == 0)
+    if (tiles.preNum[i] == 0)
     {
       slideBase++;
     }
     else
     {
-      tiles.tileNumber.push_back(num);
-      tiles.slideDistance.push_back(slideBase);
+      tiles.tileNumber.push_back(tiles.preNum[i]);
+      tiles.slideDistance.push_back({i, slideBase});
     }
   }
 }
 
-void slideVecAfterMerge(animationTiles& tiles)
+void mergeAndSlide(animationTiles& tiles)
 {
   int slideBase = 0;
   std::vector<int> temp;
@@ -46,14 +48,19 @@ void slideVecAfterMerge(animationTiles& tiles)
   {
     if (tiles.tileNumber[i] == 0)
     {
-      slideBase++;
+      continue;
     }
-    else
+    tiles.slideDistance[i].step += slideBase;
+    if (i + 1 < tiles.tileNumber.size() && tiles.tileNumber[i] == tiles.tileNumber[i + 1])
     {
-      temp.push_back(tiles.tileNumber[i]);
-      tiles.slideDistance[i] += slideBase;
+      slideBase++;
+      tiles.tileNumber[i] *= 2;
+      tiles.tileNumber[i + 1] = 0;
+      tiles.slideDistance[i + 1].step += slideBase;
     }
+    temp.push_back(tiles.tileNumber[i]);
   }
+  tiles.tileNumber = std::move(temp);
 }
 } // namespace 
 
@@ -103,21 +110,6 @@ void RotateMatrixR(vector<int>& v, int size)
 void MergeRow(core::animationTiles& tiles)
 {
   slideVec(tiles);
-  int slideBase = 0;
-  for (int i = 0; i < tiles.tileNumber.size(); i++)
-  {
-    if (tiles.tileNumber[i] == 0)
-    { 
-      continue;
-    }
-    tiles.slideDistance[i] += slideBase;
-    if (i + 1 < tiles.tileNumber.size() && tiles.tileNumber[i] == tiles.tileNumber[i + 1])
-    {
-      tiles.tileNumber[i] *= 2;
-      tiles.tileNumber[i + 1] = 0;
-      tiles.slideDistance[i + 1] = 0;
-      slideBase++;
-    }
-  }
+  mergeAndSlide(tiles);
 }
 }  // namespace utils

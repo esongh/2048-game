@@ -1,10 +1,17 @@
 #include <iostream>
 #include <vector>
+#include <format>
 
 #include "row_merge.hpp"
 
 void PrintTiles(core::animationTiles& tiles)
 {
+  for (int i = 0; i < tiles.preNum.size(); i++)
+  {
+    std::cout << i << " ";
+  }
+  std::cout << std::endl;
+  std::cout << "================" << std::endl;
   for (int i = 0; i < tiles.preNum.size(); i++)
   {
     std::cout << tiles.preNum[i] << " ";
@@ -14,7 +21,14 @@ void PrintTiles(core::animationTiles& tiles)
   
   for (int i = 0; i < tiles.slideDistance.size(); i++)
   {
-    std::cout << tiles.slideDistance[i] << " ";
+    std::cout << tiles.slideDistance[i].from << " ";
+  }
+  std::cout << std::endl;
+  std::cout << "================" << std::endl;
+
+  for (int i = 0; i < tiles.slideDistance.size(); i++)
+  {
+    std::cout << tiles.slideDistance[i].step << " ";
   }
   std::cout << std::endl;
   std::cout << "================" << std::endl;
@@ -31,7 +45,6 @@ int main()
 {
   core::animationTiles tiles;
   tiles.preNum = {0, 2, 0, 2, 0, 0, 2, 2,0, 2};
-  PrintTiles(tiles);
   utils::MergeRow(tiles);
   std::cout << "After merge" << std::endl;
   PrintTiles(tiles);

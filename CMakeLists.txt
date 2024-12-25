@@ -23,17 +23,21 @@ add_subdirectory(src/utils)
 add_executable(game
 	src/game.cpp
 	src/game.hpp
+	src/homepage.cpp
+	src/homepage.hpp
 	src/main.cpp)
 
 target_link_libraries(game
 	PRIVATE LibUI
 	PRIVATE LibUtils
+	PRIVATE LibCore
 	PRIVATE ftxui::screen
 	PRIVATE ftxui::dom
 	PRIVATE ftxui::component
 )
 
 target_include_directories(game PUBLIC
+	"${PROJECT_SOURCE_DIR}/src/core"
 	"${PROJECT_BINARY_DIR}")
 	
 add_subdirectory(test)

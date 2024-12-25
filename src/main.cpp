@@ -11,8 +11,8 @@
 #include "ftxui/component/screen_interactive.hpp"
 #include "ftxui/dom/elements.hpp"
 #include "ftxui/screen/color.hpp"
-#include "game.hpp"
 #include "row_merge.hpp"
+#include "homepage.hpp"
 
 using namespace ftxui;
 
@@ -38,7 +38,6 @@ inline ftxui::Color color_of(int num)
       return ftxui::Color::CyanLight;
   }
 }
-
 ftxui::Element board_view(const game::board_2048& board)
 {
   Elements rows;
@@ -295,11 +294,8 @@ void PrintMatrix(std::vector<std::vector<int>> v)
 
 int main()
 {
-  // auto game = game::board_2048(3);
-  // auto game_view = board_view(game);
-  auto screen = ftxui::ScreenInteractive::FitComponent();
-  auto row = Make<RowComponent>();
-  screen.Loop(row);
+  auto game = homepage();
+  game.startGame();
 
   return 0;
 }

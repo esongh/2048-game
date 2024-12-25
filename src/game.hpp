@@ -1,22 +1,15 @@
 #include <vector>
 #include <random>
 
+#include "core/game_core.hpp"
 namespace game
 {
-enum Direction : uint8_t
-{
-  LEFT = 0,
-  UP = 1,
-  RIGHT = 2,
-  DOWN = 3
-};
-
 class board_2048
 {
 public:
   explicit board_2048(int size = 4);
 
-  void move(Direction dir);
+  void move(core::Direction dir);
   
   int get_tile(int x, int y) const;
   int get_size() const { return size_; }
@@ -31,6 +24,6 @@ private:
   void add_random_tile();
   bool is_full() const;
   
-  bool is_valid_move(Direction dir) const;
+  bool is_valid_move(core::Direction dir) const;
 };
 }  // namespace game
