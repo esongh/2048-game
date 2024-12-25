@@ -4,5 +4,8 @@ add_library(LibUtils
 )
 
 target_include_directories(LibUtils
-	INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+	PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+)
+target_link_libraries(LibUtils
+	PRIVATE LibCore
 )

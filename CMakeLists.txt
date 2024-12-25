@@ -16,6 +16,8 @@ FetchContent_Declare(ftxui
 )
 FetchContent_MakeAvailable(ftxui)
 
+add_subdirectory(src/core)
+add_subdirectory(src/ui)
 add_subdirectory(src/utils)
 
 add_executable(game
@@ -24,6 +26,7 @@ add_executable(game
 	src/main.cpp)
 
 target_link_libraries(game
+	PRIVATE LibUI
 	PRIVATE LibUtils
 	PRIVATE ftxui::screen
 	PRIVATE ftxui::dom
@@ -32,3 +35,5 @@ target_link_libraries(game
 
 target_include_directories(game PUBLIC
 	"${PROJECT_BINARY_DIR}")
+	
+add_subdirectory(test)

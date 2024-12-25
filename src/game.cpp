@@ -4,9 +4,7 @@
 #include "row_merge.hpp"
 namespace game
 {
-board_2048::board_2048(int size)
-  : size_(size)
-  , gen_(std::random_device{}())  
+board_2048::board_2048(int size) : size_(size), gen_(std::random_device{}())
 {
   board_.resize(size * size);
   add_random_tile();
@@ -26,7 +24,7 @@ void board_2048::move(Direction dir)
   {
     utils::RotateMatrixR(board_, size_);
   }
-  
+
   for (int i = 0; i < size_; i++)
   {
     std::vector<int> row{board_.begin() + i * size_, board_.begin() + (i + 1) * size_};
@@ -52,15 +50,9 @@ void board_2048::move(Direction dir)
   add_random_tile();
 }
 
-bool board_2048::is_valid_move(Direction dir) const
-{
-  return true;
-}
+bool board_2048::is_valid_move(Direction dir) const { return true; }
 
-int board_2048::get_tile(int x, int y) const
-{
-  return board_[x * size_ + y];
-}
+int board_2048::get_tile(int x, int y) const { return board_[x * size_ + y]; }
 
 void board_2048::add_random_tile()
 {
@@ -84,8 +76,5 @@ bool board_2048::is_full() const
   return std::find(board_.begin(), board_.end(), 0) == board_.end();
 }
 
-bool board_2048::is_game_over() const
-{
-  return is_full() && !is_win();
-}
-}
+bool board_2048::is_game_over() const { return is_full() && !is_win(); }
+}  // namespace game

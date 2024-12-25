@@ -2,6 +2,8 @@
 
 #include "row_merge.hpp"
 
+using namespace core;
+
 namespace 
 {
 std::vector<int> slideVec(const std::vector<int>& row)
@@ -17,6 +19,41 @@ std::vector<int> slideVec(const std::vector<int>& row)
     }
   }
   return temp;
+}
+
+void slideVec(animationTiles& tiles)
+{
+  int slideBase = 0;
+  for (auto num : tiles.preNum)
+  {
+    if (num == 0)
+    {
+      slideBase++;
+    }
+    else
+    {
+      tiles.tileNumber.push_back(num);
+      tiles.slideDistance.push_back(slideBase);
+    }
+  }
+}
+
+void slideVecAfterMerge(animationTiles& tiles)
+{
+  int slideBase = 0;
+  std::vector<int> temp;
+  for (int i = 0; i < tiles.tileNumber.size(); i++)
+  {
+    if (tiles.tileNumber[i] == 0)
+    {
+      slideBase++;
+    }
+    else
+    {
+      temp.push_back(tiles.tileNumber[i]);
+      tiles.slideDistance[i] += slideBase;
+    }
+  }
 }
 } // namespace 
 
@@ -60,6 +97,27 @@ void RotateMatrixR(vector<int>& v, int size)
   for (int i = 0; i < size; i++)
   {
     reverse(v.begin() + i * size, v.begin() + (i + 1) * size);
+  }
+}
+
+void MergeRow(core::animationTiles& tiles)
+{
+  slideVec(tiles);
+  int slideBase = 0;
+  for (int i = 0; i < tiles.tileNumber.size(); i++)
+  {
+    if (tiles.tileNumber[i] == 0)
+    { 
+      continue;
+    }
+    tiles.slideDistance[i] += slideBase;
+    if (i + 1 < tiles.tileNumber.size() && tiles.tileNumber[i] == tiles.tileNumber[i + 1])
+    {
+      tiles.tileNumber[i] *= 2;
+      tiles.tileNumber[i + 1] = 0;
+      tiles.slideDistance[i + 1] = 0;
+      slideBase++;
+    }
   }
 }
 }  // namespace utils
