@@ -1,6 +1,7 @@
-#include "game.hpp"
+#include "game_ui.hpp"
 
 #include "ftxui/dom/elements.hpp"
+#include "ftxui/component/component.hpp"
 
 class homepage
 {
@@ -9,8 +10,6 @@ class homepage
 	
 	void startGame();
  private:
-  ftxui::Element game_view();
-	
-	void move(core::Direction dir);
-	game::board_2048 board_{3};
+	game::board_2048 board_{4};
+	Component gameUi;
 };

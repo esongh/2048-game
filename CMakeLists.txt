@@ -21,6 +21,8 @@ add_subdirectory(src/ui)
 add_subdirectory(src/utils)
 
 add_executable(game
+	src/game_ui.cpp
+	src/game_ui.hpp
 	src/game.cpp
 	src/game.hpp
 	src/homepage.cpp

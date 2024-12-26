@@ -8,11 +8,13 @@
 #include "ftxui/dom/elements.hpp"
 
 #include "game_core.hpp"
-#include "theme.hpp"
 
 using namespace ftxui;
 
-homepage::homepage() {}
+homepage::homepage() 
+{
+  gameUi = std::make_shared<GameUi>(board_);
+}
 
 void homepage::startGame()
 {
@@ -25,10 +27,7 @@ void homepage::startGame()
                                  return vbox(text("2048")) | size(WIDTH, GREATER_THAN, 3) |
                                         bgcolor(Color::SkyBlue1)| center | vcenter;
                                }),
-                           Renderer([&]() 
-                           { 
-                              return vbox(game_view()) | borderRounded; 
-                           }),
+                           gameUi,
                            Button("Esc", screen.ExitLoopClosure())}) |
       CatchEvent(
           [&](Event e)
@@ -38,36 +37,13 @@ void homepage::startGame()
               screen.ExitLoopClosure()();
               return true;
             }
-            else if (e == Event::ArrowLeft)
+            if (e == Event::Return)
             {
-              move(core::Direction::LEFT);
+              gameUi->TakeFocus();
               return true;
             }
             return false;
           });
 
   screen.Loop(layout);
-}
-
-Element homepage::game_view()
-{
-  Elements rows;
-  for (int i = 0; i < board_.get_size(); i++)
-  {
-    Elements cols;
-    for (int j = 0; j < board_.get_size(); j++)
-    {
-      const auto num = board_.get_tile(i, j);
-      cols.push_back(hbox(text(std::to_string(num)) | center | borderRounded |
-                          color(ui::color_of(num)) | size(WIDTH, EQUAL, 5) |
-                          size(HEIGHT, EQUAL, 3)));
-    }
-    rows.push_back(ftxui::hbox(cols));
-  }
-  return vbox(rows) | borderRounded;
-}
-
-void homepage::move(core::Direction dir)
-{
-  board_.move(dir);
 }

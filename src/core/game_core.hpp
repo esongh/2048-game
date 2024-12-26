@@ -6,8 +6,9 @@
 
 namespace core
 {
-enum Direction : uint8_t
+enum Direction : int8_t
 {
+  Unset = -1,
   LEFT = 0,
   UP = 1,
   RIGHT = 2,

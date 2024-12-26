@@ -14,6 +14,10 @@ board_2048::board_2048(int size) : size_(size), gen_(std::random_device{}())
 
 void board_2048::move(core::Direction dir)
 {
+  if (dir == core::Direction::Unset)
+  {
+    return;
+  }
   if (!is_valid_move(dir))
   {
     return;
