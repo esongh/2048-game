@@ -41,11 +41,11 @@ class RowBase : public ftxui::Node
 	animationOptions options_;
 };
 
-ftxui::Element tileBase(int number, int size, ftxui::Color col) {
+inline ftxui::Element tileBase(int number, int size, ftxui::Color col) {
   return std::make_shared<TileBase>(number, size, col);
 }
 
-ftxui::Element rowBase(animationOptions optoins)
+inline ftxui::Element rowBase(animationOptions optoins)
 {
 	return std::make_shared<RowBase>(optoins);
 }

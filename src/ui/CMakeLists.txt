@@ -9,7 +9,6 @@ target_include_directories(LibUI
 )
 
 target_link_libraries(LibUI
-	PRIVATE LibUtils
 	PRIVATE ftxui::screen
 	PRIVATE ftxui::dom
 	PRIVATE ftxui::component

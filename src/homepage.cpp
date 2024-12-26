@@ -7,8 +7,6 @@
 #include "ftxui/component/screen_interactive.hpp"
 #include "ftxui/dom/elements.hpp"
 
-#include "game_core.hpp"
-
 using namespace ftxui;
 
 homepage::homepage() 

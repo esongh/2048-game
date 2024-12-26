@@ -1,7 +1,9 @@
 #pragma once
 
 #include "game_ui.hpp"
-#include "ui/theme.hpp"
+#include "theme.hpp"
+#include "animation.hpp"
+#include "core/game_core.hpp"
 
 using namespace ftxui;
 
