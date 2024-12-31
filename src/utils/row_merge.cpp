@@ -107,9 +107,20 @@ void RotateMatrixR(vector<int>& v, int size)
   }
 }
 
-void MergeRow(core::animationTiles& tiles)
+core::animationTiles MergeRowAnimated(std::vector<int>& row)
 {
+  core::animationTiles tiles;
+  for (const auto num : row)
+  {
+    tiles.preNum.push_back(num);
+  }
   slideVec(tiles);
   mergeAndSlide(tiles);
+  
+  row.clear();
+  row.resize(tiles.preNum.size(), 0);
+  std::copy(tiles.tileNumber.begin(), tiles.tileNumber.end(), row.begin());
+  
+  return tiles;
 }
 }  // namespace utils

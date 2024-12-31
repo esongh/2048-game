@@ -26,6 +26,8 @@ void homepage::startGame()
                                         bgcolor(Color::SkyBlue1)| center | vcenter;
                                }),
                            gameUi,
+                           Button("Start", [&]() {gameUi->TakeFocus();}) |
+                               size(WIDTH, EQUAL, 10) | center | vcenter,
                            Button("Esc", screen.ExitLoopClosure())}) |
       CatchEvent(
           [&](Event e)
@@ -33,11 +35,6 @@ void homepage::startGame()
             if (e == Event::Escape)
             {
               screen.ExitLoopClosure()();
-              return true;
-            }
-            if (e == Event::Return)
-            {
-              gameUi->TakeFocus();
               return true;
             }
             return false;

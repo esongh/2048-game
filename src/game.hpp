@@ -15,9 +15,12 @@ public:
   int get_size() const { return size_; }
   bool is_win() const;
   bool is_game_over() const;
+  
+  std::vector<core::animationTiles> get_animationTiles() const;
 private:
   std::vector<int> board_;
   int size_ = 4;
+  std::vector<core::animationTiles> animationTiles_;
   
   std::default_random_engine gen_;
   

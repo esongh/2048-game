@@ -30,10 +30,12 @@ void board_2048::move(core::Direction dir)
     utils::RotateMatrixR(board_, size_);
   }
 
+  animationTiles_.clear();
   for (int i = 0; i < size_; i++)
   {
     std::vector<int> row{board_.begin() + i * size_, board_.begin() + (i + 1) * size_};
-    utils::MergeRow(row);
+    core::animationTiles tiles = utils::MergeRowAnimated(row);
+    animationTiles_.push_back(tiles);
     std::copy(row.begin(), row.end(), board_.begin() + i * size_);
   }
 
@@ -55,6 +57,8 @@ void board_2048::move(core::Direction dir)
   add_random_tile();
 }
 
+std::vector<core::animationTiles> board_2048::get_animationTiles() const { return animationTiles_; }
+
 bool board_2048::is_valid_move(core::Direction dir) const { return true; }
 
 int board_2048::get_tile(int x, int y) const { return board_[x * size_ + y]; }
@@ -67,8 +71,9 @@ void board_2048::add_random_tile()
   {
     pos = dist(gen_);
   }
-  std::uniform_int_distribution<int> dist2(0, 1);
-  board_[pos] = dist2(gen_) ? 2 : 4;
+  // std::uniform_int_distribution<int> dist2(0, 1);
+  // board_[pos] = dist2(gen_) ? 2 : 4;
+  board_[pos] = 2;
 }
 
 bool board_2048::is_win() const

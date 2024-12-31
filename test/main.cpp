@@ -44,10 +44,16 @@ void PrintTiles(core::animationTiles& tiles)
 int main()
 {
   core::animationTiles tiles;
-  tiles.preNum = {0, 2, 0, 2, 0, 0, 2, 2,0, 2};
-  utils::MergeRow(tiles);
+  std::vector<int> row = {0, 2, 0, 2, 0, 0, 2, 2,0, 2};
+  tiles = utils::MergeRowAnimated(row);
   std::cout << "After merge" << std::endl;
   PrintTiles(tiles);
+
+  std::cout << "vector" << std::endl;
+  for (auto i : row)
+  {
+    std::cout << i << " ";
+  }
 
   return 0;
 }

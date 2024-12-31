@@ -9,5 +9,5 @@ void MergeRow(vector<int>& v);
 
 void RotateMatrixR(vector<int>& v, int size);
 
-void MergeRow(core::animationTiles& tile);
+core::animationTiles MergeRowAnimated(vector<int>& row);
 }  // namespace utils
