@@ -1,8 +1,8 @@
 #pragma once
 #include "game.hpp"
 
-#include "row_merge.hpp"
 #include "core/game_core.hpp"
+#include "row_merge.hpp"
 namespace game
 {
 board_2048::board_2048(int size) : size_(size), gen_(std::random_device{}())

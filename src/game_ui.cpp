@@ -118,6 +118,11 @@ Element GameUi::Render()
 
 bool GameUi::OnEvent(Event e)
 {
+  if (animation_progress_ != 1.0f)
+  {
+    return false;
+  }
+
   dir_ = core::Direction::Unset;
   if (e == Event::ArrowLeft)
   {
@@ -142,18 +147,21 @@ bool GameUi::OnEvent(Event e)
 
   if (dir_ != core::Direction::Unset)
   {
-    if (animation_progress_ != 1.0f)
-    {
-      return false;
-    }
-
     gameCore.move(dir_);
     animationTiles_.clear();
     animationTiles_ = gameCore.get_animationTiles();
+
+    // the merge operation is done in row level from left to right. To apply operation,
+    // the board is rotated before the move in clock wise, so we need to reverse the animation when
+    // move direction is right or up to make the animation consistent with the move direction
+    // 0, 1  ->  2, 3
+    // 2, 3      1, 0
+    // TODO : need to refactor the code to reduce the complexity
     if (dir_ == core::Direction::RIGHT || dir_ == core::Direction::UP)
     {
       std::reverse(animationTiles_.begin(), animationTiles_.end());
     }
+
     animation_progress_ = 0.0f;
     animatorFunc = animation::Animator(&animation_progress_, 1.0f, std::chrono::milliseconds(250));
     return true;
