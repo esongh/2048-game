@@ -28,13 +28,14 @@ void slideVec(animationTiles& tiles)
   tiles.slideDistance.clear();
   for (int i = 0; i < tiles.preNum.size(); i++)
   {
-    if (tiles.preNum[i] == 0)
+    auto num = tiles.preNum[i];
+    if (num == 0)
     {
       slideBase++;
     }
     else
     {
-      tiles.tileNumber.push_back(tiles.preNum[i]);
+      tiles.tileNumber.push_back(num);
       tiles.slideDistance.push_back({i, slideBase});
     }
   }

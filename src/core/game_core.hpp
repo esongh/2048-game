@@ -20,11 +20,11 @@ struct motion
   int from;
   int step;
 };
+
 struct animationTiles
 {
 	std::vector<int> tileNumber;
 	std::vector<int> preNum;
   std::vector<motion> slideDistance;
 };
-
 } // namespace core

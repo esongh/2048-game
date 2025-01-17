@@ -2,7 +2,7 @@
 
 namespace ui
 {
-ftxui::Color color_of(int num)
+inline ftxui::Color color_of(int num)
 {
   switch (num)
   {

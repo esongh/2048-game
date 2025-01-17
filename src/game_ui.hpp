@@ -16,13 +16,16 @@ class GameUi : public ftxui::ComponentBase
   void OnAnimation(ftxui::animation::Params& params) override;
 
   ftxui::Element Render() override;
-  
+
   bool OnEvent(Event e) override;
 
  private:
+  ftxui::Box box_;
   bool started = false;
   game::board_2048& gameCore;
-  float animation_progress = 1.0f;
+  float animation_progress_ = 1.0f;
   animation::Animator animatorFunc =
-      animation::Animator(&animation_progress, 1.0f, std::chrono::milliseconds(500));
+      animation::Animator(&animation_progress_);
+  std::vector<core::animationTiles> animationTiles_;
+  core::Direction dir_ = core::Direction::Unset;
 };
