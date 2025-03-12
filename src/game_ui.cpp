@@ -8,6 +8,10 @@
 
 using namespace ftxui;
 
+int locTileSize = 3;
+int locSepSize = 1;
+
+
 void GameUi::OnAnimation(animation::Params& params)
 {
   if (animatorFunc.to() != 0.0f)
@@ -28,17 +32,17 @@ Element GameUi::Render()
       for (int j = 0; j < gameCore.get_size(); j++)
       {
         const auto num = gameCore.get_tile(i, j);
-        const std::string numStr = num == 0 ? " " : std::to_string(num);
-        tiles.push_back(hbox(text(numStr) | color(Color::White)) | center | borderRounded |
-                        color(ui::color_of(num)) | size(WIDTH, EQUAL, 6) | size(HEIGHT, EQUAL, 3));
-        tiles.push_back(separatorEmpty() | size(WIDTH, EQUAL, 2));
+        const std::string numStr = ui::numToStr(num);
+        tiles.push_back(hbox(text(numStr) | color(Color::White)) | center | 
+                        bgcolor(ui::color_of(num)) | size(WIDTH, EQUAL, locTileSize * 2) | size(HEIGHT, EQUAL, locTileSize));
+        tiles.push_back(separatorEmpty() | size(WIDTH, EQUAL, locSepSize * 2));
       }
       tiles.pop_back();
       rows.push_back(ftxui::hbox(tiles));
-      rows.push_back(separatorEmpty() | size(HEIGHT, EQUAL, 1));
+      rows.push_back(separatorEmpty() | size(HEIGHT, EQUAL, locSepSize));
     }
     rows.pop_back();
-    ret = vbox(rows) | borderRounded;
+    ret = vbox(rows);
   }
   else
   {
@@ -47,12 +51,12 @@ Element GameUi::Render()
       if (dir == core::Direction::LEFT || dir == core::Direction::RIGHT)
       {
         sequence.push_back(ui::rowBase(opt));
-        sequence.push_back(separatorEmpty() | size(HEIGHT, EQUAL, 1));
+        sequence.push_back(separatorEmpty() | size(HEIGHT, EQUAL, locSepSize));
       }
       else
       {
         sequence.push_back(ui::columnBase(opt));
-        sequence.push_back(separatorEmpty() | size(WIDTH, EQUAL, 2));
+        sequence.push_back(separatorEmpty() | size(WIDTH, EQUAL, locSepSize * 2));
       }
     };
 
@@ -62,15 +66,15 @@ Element GameUi::Render()
       Elements tiles;
       ui::animationOptions opt;
       opt.length = row.preNum.size();
-      opt.tile_size = 3;
-      opt.sep_size = 1;
-      int scale = 1;
+      opt.tile_size = locTileSize;
+      opt.sep_size = locSepSize;
+      int space_scale = 1;
       if (dir_ == core::Direction::LEFT || dir_ == core::Direction::RIGHT)
       {
-        scale = 2;
+        space_scale = 2;
       }
 
-      const auto step_size = (opt.tile_size + opt.sep_size) * scale;
+      const auto step_size = (opt.tile_size + opt.sep_size) * space_scale;
       for (int i = 0; i < row.preNum.size(); i++)
       {
         const auto num = row.preNum[i];
@@ -108,10 +112,10 @@ Element GameUi::Render()
       {
         return hbox(sequence);
       }
-    }() | borderRounded;
+    }();
   }
 
-  int col_size = (3 + 1) * 4 - 1;
+  int col_size = (locTileSize + locSepSize) * 4 - 1;
   return ret | size(WIDTH, EQUAL, col_size * 2 + 2) | size(HEIGHT, EQUAL, col_size + 2) |
          reflect(box_);
 }
@@ -124,19 +128,19 @@ bool GameUi::OnEvent(Event e)
   }
 
   dir_ = core::Direction::Unset;
-  if (e == Event::ArrowLeft)
+  if (e == Event::ArrowLeft || e == Event::Character('h'))
   {
     dir_ = core::Direction::LEFT;
   }
-  else if (e == Event::ArrowRight)
+  else if (e == Event::ArrowRight || e == Event::Character('l'))
   {
     dir_ = core::Direction::RIGHT;
   }
-  else if (e == Event::ArrowUp)
+  else if (e == Event::ArrowUp || e == Event::Character('k'))
   {
     dir_ = core::Direction::UP;
   }
-  else if (e == Event::ArrowDown)
+  else if (e == Event::ArrowDown || e == Event::Character('j'))
   {
     dir_ = core::Direction::DOWN;
   }
@@ -150,6 +154,10 @@ bool GameUi::OnEvent(Event e)
     gameCore.move(dir_);
     animationTiles_.clear();
     animationTiles_ = gameCore.get_animationTiles();
+    if (animationTiles_.empty())
+    {
+      return false;
+    }
 
     // the merge operation is done in row level from left to right. To apply operation,
     // the board is rotated before the move in clock wise, so we need to reverse the animation when
@@ -163,7 +171,7 @@ bool GameUi::OnEvent(Event e)
     }
 
     animation_progress_ = 0.0f;
-    animatorFunc = animation::Animator(&animation_progress_, 1.0f, std::chrono::milliseconds(250));
+    animatorFunc = animation::Animator(&animation_progress_, 1.0f, std::chrono::milliseconds(200));
     return true;
   }
   return false;

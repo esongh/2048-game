@@ -44,7 +44,7 @@ void TileBase::Render(ftxui::Screen& screen)
   // }
 
   int mid_y = (box_.y_min + box_.y_max) / 2;
-  std::string n_char = n == 0 ? " " : std::to_string(n);
+  std::string n_char = ui::numToStr(n);
   std::string numStr = std::format("{0:^{1}}", n_char, box_.x_max - box_.x_min + 1);
   auto it = numStr.begin();
   for (int x = box_.x_min; x <= box_.x_max; x++)
@@ -94,7 +94,7 @@ void RowBase::Render(ftxui::Screen& screen)
   for (int i = 0; i < options_.tiles.size(); i++)
   {
     const auto num = options_.tiles[i];
-    auto tile = tileBase(num, options_.tile_size, Color::White) | borderRounded | color(ui::color_of(num));
+    auto tile = tileBase(num, options_.tile_size, Color::White) | bgcolor(ui::color_of(num));
     int start_x = box_.x_min + int(std::round(options_.tile_start[i]));
     int start_y = box_.y_min;
     tile->SetBox(ftxui::Box{.x_min = start_x,
@@ -144,7 +144,7 @@ void ColumnBase::Render(ftxui::Screen& screen)
   for (int i = 0; i < options_.tiles.size(); i++)
   {
     const auto num = options_.tiles[i];
-    auto tile = tileBase(num, options_.tile_size, Color::White) | borderRounded | color(ui::color_of(num));
+    auto tile = tileBase(num, options_.tile_size, Color::White) | bgcolor(ui::color_of(num));
     int start_x = box_.x_min;
     int start_y = box_.y_min + int(std::round(options_.tile_start[i]));
     tile->SetBox(ftxui::Box{.x_min = start_x,

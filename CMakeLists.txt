@@ -16,6 +16,12 @@ FetchContent_Declare(ftxui
 )
 FetchContent_MakeAvailable(ftxui)
 
+FetchContent_Declare(lodepng
+	GIT_REPOSITORY https://github.com/lvandeve/lodepng.git
+	GIT_TAG master
+)
+FetchContent_MakeAvailable(lodepng)
+
 add_subdirectory(src/core)
 add_subdirectory(src/ui)
 add_subdirectory(src/utils)
@@ -43,3 +49,13 @@ target_include_directories(game PUBLIC
 	"${PROJECT_BINARY_DIR}")
 	
 add_subdirectory(test)
+
+# Set the source and destination paths
+set(SOURCE_FILE "${CMAKE_SOURCE_DIR}/art_asset/texture_slim.png")
+set(DESTINATION_DIR "${CMAKE_BINARY_DIR}/Debug/")
+
+# Create the destination directory if it doesn't exist
+file(MAKE_DIRECTORY ${DESTINATION_DIR})
+
+# Copy the file to the destination directory
+file(COPY ${SOURCE_FILE} DESTINATION ${DESTINATION_DIR})

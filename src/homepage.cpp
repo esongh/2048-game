@@ -16,17 +16,7 @@ void homepage::startGame()
   auto screen = ftxui::ScreenInteractive::FitComponent();
   int boardSize = board_.get_size();
 
-  Component layout = Container::Vertical({Renderer(
-                                              []()
-                                              {
-                                                return vbox(text("2048")) |
-                                                       size(WIDTH, GREATER_THAN, 3) |
-                                                       bgcolor(Color::SkyBlue1) | center | vcenter;
-                                              }),
-                                          gameUi,
-                                          Button("Start", [&]() { gameUi->TakeFocus(); }) |
-                                              size(WIDTH, EQUAL, 10) | center | vcenter,
-                                          Button("Esc", screen.ExitLoopClosure())}) |
+  Component layout = Container::Vertical({gameUi}) |
                      CatchEvent(
                          [&](Event e)
                          {
@@ -35,7 +25,7 @@ void homepage::startGame()
                              screen.ExitLoopClosure()();
                              return true;
                            }
-                           return false;
+                           return gameUi->OnEvent(e);
                          });
 
   screen.Loop(layout);
